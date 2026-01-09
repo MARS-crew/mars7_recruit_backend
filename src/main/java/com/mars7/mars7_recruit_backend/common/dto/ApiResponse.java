@@ -1,6 +1,7 @@
 package com.mars7.mars7_recruit_backend.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
 import lombok.*;
 
 @Getter
@@ -24,10 +25,10 @@ public class ApiResponse<T> {
                 .build();
     }
 
-    public static ApiResponse<Void> error(String code, String message) {
+    public static ApiResponse<Void> error(ErrorCode errorCode) {
         return ApiResponse.<Void>builder()
                 .success(false)
-                .error(new Error(code, message))
+                .error(new Error(errorCode.getCode(), errorCode.getMessage()))
                 .build();
     }
 
