@@ -2,19 +2,24 @@ package com.mars7.mars7_recruit_backend.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Schema(description = "공통 응답 규격")
 public class ApiResponse<T> {
 
+    @Schema(description = "성공 여부", example = "true")
     private boolean success;
 
+    @Schema(description = "실제 데이터")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
+    @Schema(description = "에러 정보 (실패 시에만 포함)")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Error error;
 
@@ -34,8 +39,12 @@ public class ApiResponse<T> {
 
     @Getter
     @AllArgsConstructor
+    @Schema(description = "에러 상세 정보")
     public static class Error {
+        @Schema(description = "에러 코드", example = "USER_NOT_FOUND")
         private String code;
+
+        @Schema(description = "에러 메시지", example = "사용자를 찾을 수 없습니다")
         private String message;
     }
 }
