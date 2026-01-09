@@ -3,6 +3,7 @@ package com.mars7.mars7_recruit_backend.common.exception;
 import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -26,8 +27,16 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest request,
                                   ServerHttpResponse response) {
 
+        if (body instanceof ApiResponse) {
+            return body;
+        }
+
+        if (body instanceof ResponseEntity<?>) {
+            return body;
+        }
+
         if (body == null) {
-            return ApiResponse.ok("OK");
+            return ApiResponse.ok(null);
         }
 
         return ApiResponse.ok(body);

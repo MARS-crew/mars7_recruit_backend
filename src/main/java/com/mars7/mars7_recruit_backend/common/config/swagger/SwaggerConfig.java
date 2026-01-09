@@ -1,4 +1,4 @@
-package com.mars7.mars7_recruit_backend.common.swagger;
+package com.mars7.mars7_recruit_backend.common.config.swagger;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
