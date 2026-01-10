@@ -29,6 +29,17 @@ public class UserEntity {
     @Column(length = 255, nullable = false)
     private String password;
 
+    @Column(name = "refresh_token_hash")
+    private String refreshTokenHash;
+
+    @Column(name = "refresh_token_expires_at")
+    private LocalDateTime refreshTokenExpiresAt;
+
+    public void updateRefreshToken(String hash, LocalDateTime expiresAt) {
+        this.refreshTokenHash = hash;
+        this.refreshTokenExpiresAt = expiresAt;
+    }
+
     @Column(length = 10, nullable = false)
     private String name;
 

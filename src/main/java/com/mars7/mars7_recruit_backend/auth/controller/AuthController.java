@@ -1,5 +1,7 @@
 package com.mars7.mars7_recruit_backend.auth.controller;
 
+import com.mars7.mars7_recruit_backend.auth.dto.LoginRequestDto;
+import com.mars7.mars7_recruit_backend.auth.dto.LoginResponseDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
 import com.mars7.mars7_recruit_backend.auth.service.AuthService;
@@ -29,5 +31,12 @@ public class AuthController {
     public ApiResponse<String> checkId(@RequestParam String usersId) {
         String message = authService.checkUsersIdDuplicate(usersId);
         return ApiResponse.ok(message);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "로그인", description = "로그인 api")
+    public ApiResponse<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto) {
+        LoginResponseDto response = authService.login(requestDto);
+        return ApiResponse.ok(response);
     }
 }
