@@ -22,6 +22,10 @@ public class AuthService {
     //signup
     @Transactional
     public SignupResponseDto signUp(SignupRequestDto requestDto) {
+        if (!requestDto.getPassword().equals(requestDto.getPasswordConfirm())) {
+            throw new BusinessException(ErrorCode.PASSWORD_MISMATCH);
+        }
+
         if (userRepository.existsByUsersId(requestDto.getUsersId())) {
             throw new BusinessException(ErrorCode.DUPLICATE_USER);
         }
