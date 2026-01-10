@@ -65,6 +65,7 @@ public class SignupResponseDto {
                 .address(entity.getAddress())
                 .serviceAgreed(entity.getServiceAgreed())
                 .apppushAgreed(entity.getApppushAgreed())
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 }

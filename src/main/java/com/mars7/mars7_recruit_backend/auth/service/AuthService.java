@@ -4,6 +4,8 @@ import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.auth.repository.UserRepository;
+import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
+import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,7 +23,11 @@ public class AuthService {
     @Transactional
     public SignupResponseDto signUp(SignupRequestDto requestDto) {
         if (userRepository.existsByUsersId(requestDto.getUsersId())) {
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_USER);
+        }
+
+        if(userRepository.existsByPhoneNumber(requestDto.getPhoneNumber())){
+            throw new BusinessException(ErrorCode.DUPLICATE_PHONE);
         }
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());

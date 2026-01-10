@@ -37,6 +37,13 @@ public class ApiResponse<T> {
                 .build();
     }
 
+    public static ApiResponse<Void> error(String code, String message) {
+        return ApiResponse.<Void>builder()
+                .success(false)
+                .error(new Error(code, message))
+                .build();
+    }
+
     @Getter
     @AllArgsConstructor
     @Schema(description = "에러 상세 정보")
