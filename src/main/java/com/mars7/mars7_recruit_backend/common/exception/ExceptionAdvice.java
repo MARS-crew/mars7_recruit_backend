@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.mars7.mars7_recruit_backend")
 @Slf4j
 public class ExceptionAdvice {
 

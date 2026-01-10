@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.mars7.mars7_recruit_backend")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)

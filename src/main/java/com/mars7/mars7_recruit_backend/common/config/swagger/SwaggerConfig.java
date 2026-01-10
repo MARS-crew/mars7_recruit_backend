@@ -3,7 +3,7 @@ package com.mars7.mars7_recruit_backend.common.config.swagger;
 import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info; // import 경로 수정
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.utils.SpringDocUtils;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
 
-    static {
-
-        SpringDocUtils.getConfig().replaceWithClass(Object.class, ApiResponse.class);
-    }
+//    static {
+//
+//        SpringDocUtils.getConfig().replaceWithClass(Object.class, ApiResponse.class);
+//    }
 
     @Bean
     public OpenAPI openAPI() {

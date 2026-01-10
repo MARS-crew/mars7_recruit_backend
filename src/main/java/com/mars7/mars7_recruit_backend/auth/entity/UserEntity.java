@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor // Builder를 위해 모든 필드 생성자 추가
+@AllArgsConstructor
 @Builder
 public class UserEntity {
     @Id
