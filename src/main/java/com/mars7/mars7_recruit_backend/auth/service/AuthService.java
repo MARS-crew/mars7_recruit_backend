@@ -1,15 +1,20 @@
 package com.mars7.mars7_recruit_backend.auth.service;
 
+import com.mars7.mars7_recruit_backend.auth.dto.LoginRequestDto;
+import com.mars7.mars7_recruit_backend.auth.dto.LoginResponseDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.auth.repository.UserRepository;
+import com.mars7.mars7_recruit_backend.common.config.auth.config.JwtProvider;
 import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
 import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +23,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtProvider jwtProvider;
 
     //signup
     @Transactional
@@ -63,5 +69,27 @@ public class AuthService {
             throw new BusinessException(ErrorCode.DUPLICATE_USER);
         }
         return "사용 가능한 아이디입니다.";
+    }
+
+    //login
+    @Transactional
+    public LoginResponseDto login(LoginRequestDto requestDto) {
+        UserEntity user = userRepository.findByUsersId(requestDto.getUsersId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new BusinessException(ErrorCode.INVALID_INPUT);
+        }
+
+        String accessToken = jwtProvider.createAccessToken(user.getUsersId());
+        String refreshToken = jwtProvider.createRefreshToken();
+
+        user.updateRefreshToken(refreshToken, LocalDateTime.now().plusDays(14));
+
+        return LoginResponseDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .userDetails(SignupResponseDto.from(user))
+                .build();
     }
 }
