@@ -4,18 +4,11 @@ import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
 import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
 import com.mars7.mars7_recruit_backend.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -26,8 +19,15 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "회원가입 api")
-    @ApiResponse(responseCode = "200", description = "성공")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
     public SignupResponseDto signUp(@Valid @RequestBody SignupRequestDto requestDto) {
         return authService.signUp(requestDto);
+    }
+
+    @PostMapping("/check-id")
+    @Operation(summary = "아이디 중복 확인", description = "아이디 중복 확인 api")
+    public ApiResponse<String> checkId(@RequestParam String usersId) {
+        String message = authService.checkUsersIdDuplicate(usersId);
+        return ApiResponse.ok(message);
     }
 }

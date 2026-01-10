@@ -51,4 +51,13 @@ public class AuthService {
 
         return SignupResponseDto.from(savedUser);
     }
+
+    //id check
+    @Transactional(readOnly = true)
+    public String checkUsersIdDuplicate(String usersId) {
+        if (userRepository.existsByUsersId(usersId)) {
+            throw new BusinessException(ErrorCode.DUPLICATE_USER);
+        }
+        return "사용 가능한 아이디입니다.";
+    }
 }
