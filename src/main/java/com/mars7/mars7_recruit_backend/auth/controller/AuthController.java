@@ -46,4 +46,11 @@ public class AuthController {
         String usersId = authentication.getName();
         return ApiResponse.ok(authService.logout(usersId));
     }
+
+    @DeleteMapping()
+    @Operation(summary = "회원 탈퇴", description = "로그인 상태로 api 호출 시 자동 탈퇴")
+    public ApiResponse<DeleteResponseDto> delete(Authentication authentication) {
+        String usersId = authentication.getName();
+        return ApiResponse.ok(authService.delete(usersId));
+    }
 }

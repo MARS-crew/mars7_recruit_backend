@@ -105,4 +105,19 @@ public class AuthService {
                 .message("로그아웃되었습니다.")
                 .build();
     }
+
+    @Transactional
+    public DeleteResponseDto delete(String usersId) {
+        UserEntity user = userRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        userRepository.delete(user);
+
+        return DeleteResponseDto.builder()
+                .id(user.getId())
+                .usersId(user.getUsersId())
+                .name((user.getName()))
+                .message("회원 탈퇴가 완료되었습니다.")
+                .build();
+    }
 }
