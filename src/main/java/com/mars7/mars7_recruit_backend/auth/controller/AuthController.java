@@ -1,21 +1,21 @@
 package com.mars7.mars7_recruit_backend.auth.controller;
 
-import com.mars7.mars7_recruit_backend.auth.dto.LoginRequestDto;
-import com.mars7.mars7_recruit_backend.auth.dto.LoginResponseDto;
-import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
-import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
+import com.mars7.mars7_recruit_backend.auth.dto.*;
 import com.mars7.mars7_recruit_backend.auth.service.AuthService;
+import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
+import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(name = "auth-controller", description = "회원가입/로그인 엔드포인트")
+@Tag(name = "auth-controller", description = "auth 엔드포인트")
 public class AuthController {
     private final AuthService authService;
 
@@ -38,5 +38,12 @@ public class AuthController {
     public ApiResponse<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto requestDto) {
         LoginResponseDto response = authService.login(requestDto);
         return ApiResponse.ok(response);
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그인 상태로 api 호출 시 자동 로그아웃")
+    public ApiResponse<LogoutResponseDto> logout(Authentication authentication) {
+        String usersId = authentication.getName();
+        return ApiResponse.ok(authService.logout(usersId));
     }
 }

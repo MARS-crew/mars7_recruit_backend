@@ -12,16 +12,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1/mypage")
 @RequiredArgsConstructor
 public class MypageController {
 
     private final MypageService mypageService;
 
     @Operation(summary = "사용자 정보 수정", description = "사용자 정보 수정, 정보 하나만 입력해도 수정 가능")
-    @PatchMapping("api/v1/mypage/update")
+    @PatchMapping("/update")
     public ApiResponse<ChangeResponseDto> updateUserInfo(
             Authentication authentication,
             @RequestBody ChangeRequestDto dto
@@ -30,4 +32,6 @@ public class MypageController {
         ChangeResponseDto response = mypageService.updateUserInfo(usersId, dto);
         return ApiResponse.ok(response);
     }
+
+
 }
