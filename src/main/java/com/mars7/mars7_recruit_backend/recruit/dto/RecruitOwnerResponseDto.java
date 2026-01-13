@@ -9,13 +9,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
-@JsonPropertyOrder({"recruitId", "userId", "userName", "title", "content", "field", "gender",
+@JsonPropertyOrder({"recruitId", "userId", "userName", "userPhoneNumber", "title", "content", "field", "gender",
         "people", "startDate", "dueDate", "resultDate", "posterImage", "viewCount",
-        "applicantCount", "createdAt", "updatedAt"})
-@Schema(description = "모집글 응답 DTO (게시자용 - 지원자 수 포함)")
+        "applicantCount", "applicants", "createdAt", "updatedAt"})
+@Schema(description = "모집글 응답 DTO (게시자용 - 지원자 정보 포함)")
 public class RecruitOwnerResponseDto {
 
     @Schema(description = "모집글 ID", example = "1")
@@ -26,6 +27,9 @@ public class RecruitOwnerResponseDto {
 
     @Schema(description = "작성자 이름", example = "홍길동")
     private String userName;
+
+    @Schema(description = "작성자 전화번호", example = "010-1234-5678")
+    private String userPhoneNumber;
 
     @Schema(description = "모집글 제목", example = "프로그래밍 동아리 신입 부원 모집")
     private String title;
@@ -60,17 +64,21 @@ public class RecruitOwnerResponseDto {
     @Schema(description = "지원자 수", example = "25")
     private Integer applicantCount;
 
+    @Schema(description = "지원자 목록")
+    private List<ApplicantInfoDto> applicants;
+
     @Schema(description = "생성일시", example = "2026-01-10T10:30:00")
     private LocalDateTime createdAt;
 
     @Schema(description = "수정일시", example = "2026-01-10T10:30:00")
     private LocalDateTime updatedAt;
 
-    public static RecruitOwnerResponseDto from(RecruitEntity entity, Integer applicantCount) {
+    public static RecruitOwnerResponseDto from(RecruitEntity entity, Integer applicantCount, List<ApplicantInfoDto> applicants) {
         return RecruitOwnerResponseDto.builder()
                 .recruitId(entity.getRecruitId())
                 .userId(entity.getUser().getId())
                 .userName(entity.getUser().getName())
+                .userPhoneNumber(entity.getUser().getPhoneNumber())
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .field(entity.getField())
@@ -82,6 +90,7 @@ public class RecruitOwnerResponseDto {
                 .posterImage(entity.getPosterImage())
                 .viewCount(entity.getViewCount())
                 .applicantCount(applicantCount)
+                .applicants(applicants)
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();

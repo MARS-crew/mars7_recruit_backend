@@ -9,9 +9,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/recruits")
@@ -25,14 +26,12 @@ public class RecruitController {
      * 1. 동아리 검색 (키워드로 제목/내용 검색)
      */
     @GetMapping("/search")
-    @Operation(summary = "동아리 검색", description = "키워드로 동아리 모집글을 검색합니다.")
+    @Operation(summary = "동아리 검색", description = "키워드로 동아리 모집글을 검색합니다. 키워드가 없으면 전체 목록을 반환합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "검색 성공")
-    public ApiResponse<Page<RecruitListResponseDto>> searchRecruits(
-            @Parameter(description = "검색 키워드") @RequestParam(required = false) String keyword,
-            @Parameter(description = "페이지 번호 (0부터 시작)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "페이지 크기") @RequestParam(defaultValue = "10") int size) {
+    public ApiResponse<List<RecruitListResponseDto>> searchRecruits(
+            @Parameter(description = "검색 키워드 (선택사항)") @RequestParam(required = false) String keyword) {
 
-        Page<RecruitListResponseDto> result = recruitService.searchRecruits(keyword, page, size);
+        List<RecruitListResponseDto> result = recruitService.searchRecruits(keyword);
         return ApiResponse.ok(result);
     }
 
@@ -40,14 +39,12 @@ public class RecruitController {
      * 2. 동아리 분야별 조회
      */
     @GetMapping
-    @Operation(summary = "동아리 분야별 조회", description = "분야별로 동아리 모집글을 조회합니다. 분야를 지정하지 않으면 전체 조회됩니다.")
+    @Operation(summary = "동아리 분야별 조회", description = "분야별로 동아리 모집글을 조회합니다. 분야를 지정하지 않거나 ALL을 선택하면 전체 목록을 반환합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
-    public ApiResponse<Page<RecruitListResponseDto>> getRecruitsByField(
-            @Parameter(description = "모집 분야 (ALL, MAJOR, HOBBY)") @RequestParam(required = false) RecruitField field,
-            @Parameter(description = "페이지 번호 (0부터 시작)") @RequestParam(defaultValue = "0") int page,
-            @Parameter(description = "페이지 크기") @RequestParam(defaultValue = "10") int size) {
+    public ApiResponse<List<RecruitListResponseDto>> getRecruitsByField(
+            @Parameter(description = "모집 분야 (ALL, MAJOR, HOBBY) - 선택사항") @RequestParam(required = false) RecruitField field) {
 
-        Page<RecruitListResponseDto> result = recruitService.getRecruitsByField(field, page, size);
+        List<RecruitListResponseDto> result = recruitService.getRecruitsByField(field);
         return ApiResponse.ok(result);
     }
 
@@ -70,7 +67,7 @@ public class RecruitController {
      * 4. 동아리 모집글 상세 조회 (지원자용)
      */
     @GetMapping("/{recruitId}")
-    @Operation(summary = "모집글 상세 조회 (지원자)", description = "동아리 모집글의 상세 정보를 조회합니다.")
+    @Operation(summary = "모집글 상세 조회 (지원자)", description = "동아리 모집글의 상세 정보를 조회합니다. 조회 시 조회수가 증가합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공")
     public ApiResponse<RecruitResponseDto> getRecruitDetail(
             @Parameter(description = "모집글 ID") @PathVariable Long recruitId) {
@@ -98,7 +95,7 @@ public class RecruitController {
      * 6. 동아리 모집글 수정
      */
     @PutMapping("/{recruitId}")
-    @Operation(summary = "모집글 수정", description = "게시자 본인만 접근 가능하며, 모집글을 수정합니다.")
+    @Operation(summary = "모집글 수정", description = "게시자 본인만 접근 가능하며, 모집글을 수정합니다. 수정하지 않을 필드는 null로 전송하거나 생략할 수 있습니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "수정 성공")
     public ApiResponse<RecruitResponseDto> updateRecruit(
             Authentication authentication,

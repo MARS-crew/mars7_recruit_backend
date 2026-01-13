@@ -10,11 +10,11 @@ import com.mars7.mars7_recruit_backend.recruit.entity.RecruitEntity;
 import com.mars7.mars7_recruit_backend.recruit.repository.RecruitRepository;
 import com.mars7.mars7_recruit_backend.recruit.repository.ResumeRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,31 +28,35 @@ public class RecruitService {
     /**
      * 1. 동아리 검색 (키워드로 제목/내용 검색)
      */
-    public Page<RecruitListResponseDto> searchRecruits(String keyword, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-
+    public List<RecruitListResponseDto> searchRecruits(String keyword) {
         if (keyword == null || keyword.trim().isEmpty()) {
-            return recruitRepository.findAllByOrderByCreatedAtDesc(pageable)
-                    .map(RecruitListResponseDto::from);
+            return recruitRepository.findAllByOrderByCreatedAtDesc()
+                    .stream()
+                    .map(RecruitListResponseDto::from)
+                    .collect(Collectors.toList());
         }
 
-        return recruitRepository.searchByKeyword(keyword.trim(), pageable)
-                .map(RecruitListResponseDto::from);
+        return recruitRepository.searchByKeyword(keyword.trim())
+                .stream()
+                .map(RecruitListResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     /**
      * 2. 동아리 분야별 조회
      */
-    public Page<RecruitListResponseDto> getRecruitsByField(RecruitField field, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-
+    public List<RecruitListResponseDto> getRecruitsByField(RecruitField field) {
         if (field == null || field == RecruitField.ALL) {
-            return recruitRepository.findAllByOrderByCreatedAtDesc(pageable)
-                    .map(RecruitListResponseDto::from);
+            return recruitRepository.findAllByOrderByCreatedAtDesc()
+                    .stream()
+                    .map(RecruitListResponseDto::from)
+                    .collect(Collectors.toList());
         }
 
-        return recruitRepository.findByFieldOrderByCreatedAtDesc(field, pageable)
-                .map(RecruitListResponseDto::from);
+        return recruitRepository.findByFieldOrderByCreatedAtDesc(field)
+                .stream()
+                .map(RecruitListResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -110,7 +114,12 @@ public class RecruitService {
         }
 
         Integer applicantCount = resumeRepository.countByRecruitRecruitId(recruitId);
-        return RecruitOwnerResponseDto.from(recruit, applicantCount);
+        List<ApplicantInfoDto> applicants = resumeRepository.findByRecruitRecruitIdOrderByCreatedAtDesc(recruitId)
+                .stream()
+                .map(ApplicantInfoDto::from)
+                .collect(Collectors.toList());
+
+        return RecruitOwnerResponseDto.from(recruit, applicantCount, applicants);
     }
 
     /**
