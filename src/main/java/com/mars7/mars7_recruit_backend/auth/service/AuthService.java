@@ -1,9 +1,6 @@
 package com.mars7.mars7_recruit_backend.auth.service;
 
-import com.mars7.mars7_recruit_backend.auth.dto.LoginRequestDto;
-import com.mars7.mars7_recruit_backend.auth.dto.LoginResponseDto;
-import com.mars7.mars7_recruit_backend.auth.dto.SignupRequestDto;
-import com.mars7.mars7_recruit_backend.auth.dto.SignupResponseDto;
+import com.mars7.mars7_recruit_backend.auth.dto.*;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.auth.repository.UserRepository;
 import com.mars7.mars7_recruit_backend.common.config.auth.config.JwtProvider;
@@ -90,6 +87,22 @@ public class AuthService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .userDetails(SignupResponseDto.from(user))
+                .build();
+    }
+
+    //logout
+    @Transactional
+    public LogoutResponseDto logout(String usersId) {
+        UserEntity user = userRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        user.updateRefreshToken(null, null);
+
+        return LogoutResponseDto.builder()
+                .id(user.getId())
+                .usersId(user.getUsersId())
+                .name(user.getName())
+                .message("로그아웃되었습니다.")
                 .build();
     }
 }
