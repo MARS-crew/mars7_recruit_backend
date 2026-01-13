@@ -1,5 +1,6 @@
 package com.mars7.mars7_recruit_backend.auth.dto;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
+@JsonPropertyOrder({"id, usersId, name, phonNumber, grade, major, gender, birth, " +
+        "profileImage, address, serviceAgreed, apppushAgreed, createdAt"})
 public class SignupResponseDto {
     @Schema(description = "pk", example = "1")
     private Long id;
