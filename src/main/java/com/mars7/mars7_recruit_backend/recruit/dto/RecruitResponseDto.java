@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@JsonPropertyOrder({"recruitId", "userId", "userName", "title", "content", "field", "gender",
+@JsonPropertyOrder({"recruitId", "userId", "userName", "userPhoneNumber", "title", "content", "field", "gender",
         "people", "startDate", "dueDate", "resultDate", "posterImage", "viewCount", "createdAt", "updatedAt"})
 @Schema(description = "모집글 응답 DTO (지원자용)")
 public class RecruitResponseDto {
@@ -25,6 +25,9 @@ public class RecruitResponseDto {
 
     @Schema(description = "작성자 이름", example = "홍길동")
     private String userName;
+
+    @Schema(description = "작성자 전화번호", example = "010-1234-5678")
+    private String userPhoneNumber;
 
     @Schema(description = "모집글 제목", example = "프로그래밍 동아리 신입 부원 모집")
     private String title;
@@ -67,6 +70,7 @@ public class RecruitResponseDto {
                 .recruitId(entity.getRecruitId())
                 .userId(entity.getUser().getId())
                 .userName(entity.getUser().getName())
+                .userPhoneNumber(entity.getUser().getPhoneNumber())
                 .title(entity.getTitle())
                 .content(entity.getContent())
                 .field(entity.getField())
