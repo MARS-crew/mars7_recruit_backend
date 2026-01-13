@@ -46,4 +46,10 @@ public class AuthController {
         String usersId = authentication.getName();
         return ApiResponse.ok(authService.logout(usersId));
     }
+
+    @DeleteMapping()
+    public ApiResponse<DeleteResponseDto> delete(Authentication authentication) {
+        String usersId = authentication.getName();
+        return ApiResponse.ok(authService.delete(usersId));
+    }
 }
