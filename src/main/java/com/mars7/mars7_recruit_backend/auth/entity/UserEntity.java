@@ -1,7 +1,7 @@
 package com.mars7.mars7_recruit_backend.auth.entity;
 
 import com.mars7.mars7_recruit_backend.common.enums.Gender;
-import com.mars7.mars7_recruit_backend.mypage.dto.ChangeRequestDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -80,7 +80,7 @@ public class UserEntity {
     @Column(updatable = true, name="updated_at")
     private LocalDateTime updatedAt;
 
-    public void updateInfo(ChangeRequestDto dto) {
+    public void updateInfo(InfoChangeRequestDto dto) {
         if (dto.getName() != null) {
             this.name = dto.getName();
         }
@@ -99,6 +99,10 @@ public class UserEntity {
         if (dto.getApppushAgreed() != null) {
             this.apppushAgreed = dto.getApppushAgreed();
         }
+    }
+
+    public void pwChange(String encodedPassword) {
+        this.password = encodedPassword;
     }
 
 }

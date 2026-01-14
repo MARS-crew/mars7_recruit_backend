@@ -27,6 +27,7 @@ public class SignupRequestDto {
 
     @Schema(description = "비밀번호 확인", example = "cye1111*")
     @NotNull(message = "필수 입력값입니다.")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String passwordConfirm;
 
     @Schema(description = "이름", example = "최예은")
