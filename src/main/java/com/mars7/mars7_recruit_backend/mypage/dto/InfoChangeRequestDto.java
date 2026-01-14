@@ -1,15 +1,13 @@
 package com.mars7.mars7_recruit_backend.mypage.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ChangeRequestDto {
+public class InfoChangeRequestDto {
 
     @Schema(description = "이름", example = "최예은")
     private String name;

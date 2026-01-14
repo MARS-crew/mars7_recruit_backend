@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @JsonPropertyOrder({"id", "usersId", "name", "phoneNumber", "grade", "major", "profileImage", "createdAt"})
-public class ChangeResponseDto {
+public class InfoChangeResponseDto {
     @Schema(description = "pk", example = "1")
     private Long id;
 
