@@ -2,6 +2,9 @@ package com.mars7.mars7_recruit_backend.resume.service;
 
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.auth.repository.UserRepository; // 패키지 경로 확인 필요
+import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
+import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
+import com.mars7.mars7_recruit_backend.resume.dto.ApplicantDetailResponseDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ApplicantListResponseDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeRequestDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeResponseDto;
@@ -56,5 +59,19 @@ public class ResumeService {
 
             return ApplicantListResponseDto.of(resume, user, age);
         }).toList();
+    }
+    @Transactional(readOnly = true)
+    public ApplicantDetailResponseDto getApplicantDetail(Long resumeId) {
+        // 1. 지원서 조회 시 BusinessException 던지기
+        ResumeEntity resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+        // 만약 ErrorCode에 NO_APPLICANT가 없다면 기존 USER_NOT_FOUND 등을 활용하거나 추가하세요.
+
+        UserEntity user = userRepository.findById(resume.getUserId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        int age = LocalDateTime.now().getYear() - user.getBirth().getYear() + 1;
+
+        return ApplicantDetailResponseDto.of(resume, user, age);
     }
 }
