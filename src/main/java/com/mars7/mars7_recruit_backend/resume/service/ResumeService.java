@@ -123,4 +123,28 @@ public class ResumeService {
                 .map(ResumeResponseDto::from)
                 .toList();
     }
+    /**
+     * 내 지원서 상세 조회 (로그인한 유저 본인용)
+     */
+    @Transactional(readOnly = true)
+    public ApplicantDetailResponseDto getMyResumeDetail(Long resumeId, String usersId) {
+        // 1. 현재 로그인한 유저 정보 조회
+        UserEntity currentUser = mypageRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 2. 지원서 정보 조회
+        ResumeEntity resume = resumeRepository.findById(resumeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 3. 본인 확인 검증: 지원서의 작성자 ID와 로그인 유저의 PK 비교
+        if (!resume.getUserId().equals(currentUser.getId())) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
+
+        // 4. 나이 계산 (현재 연도 - 생년 + 1)
+        int age = LocalDateTime.now().getYear() - currentUser.getBirth().getYear() + 1;
+
+        // 5. 요청하신 상세 정보 DTO로 변환하여 반환
+        return ApplicantDetailResponseDto.of(resume, currentUser, age);
+    }
 }
