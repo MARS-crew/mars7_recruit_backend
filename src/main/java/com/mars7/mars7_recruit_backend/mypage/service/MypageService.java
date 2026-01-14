@@ -3,10 +3,13 @@ package com.mars7.mars7_recruit_backend.mypage.service;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
 import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
-import com.mars7.mars7_recruit_backend.mypage.dto.ChangeRequestDto;
-import com.mars7.mars7_recruit_backend.mypage.dto.ChangeResponseDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeRequestDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeResponseDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.PwChangeRequestDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.PwChangeResponseDto;
 import com.mars7.mars7_recruit_backend.mypage.repository.MypageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MypageService {
     private final MypageRepository mypageRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    public ChangeResponseDto updateUserInfo(String usersId, ChangeRequestDto dto) {
+    public InfoChangeResponseDto updateUserInfo(String usersId, InfoChangeRequestDto dto) {
         UserEntity user = mypageRepository.findByUsersId(usersId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
@@ -28,7 +32,7 @@ public class MypageService {
 
         user.updateInfo(dto);
 
-        return ChangeResponseDto.builder()
+        return InfoChangeResponseDto.builder()
                 .id(user.getId())
                 .usersId(user.getUsersId())
                 .name(user.getName())
@@ -39,6 +43,25 @@ public class MypageService {
                 .apppushAgreed(user.getApppushAgreed())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
+                .build();
+    }
+
+    @Transactional
+    public PwChangeResponseDto pwChange(String usersId, PwChangeRequestDto dto) {
+        UserEntity user = mypageRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if (!dto.getPassword().equals(dto.getPasswordConfirm())) {
+            throw new BusinessException(ErrorCode.PASSWORD_MISMATCH);
+        }
+
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
+        user.pwChange(encodedPassword);
+
+        return PwChangeResponseDto.builder()
+                .id(user.getId())
+                .usersId(user.getUsersId())
+                .Message("비밀번호가 성공적으로 변경되었습니다.")
                 .build();
     }
 }
