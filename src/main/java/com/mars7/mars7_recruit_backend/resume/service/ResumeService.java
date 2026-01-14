@@ -2,7 +2,7 @@ package com.mars7.mars7_recruit_backend.resume.service;
 
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.auth.repository.UserRepository; // 패키지 경로 확인 필요
-import com.mars7.mars7_recruit_backend.resume.dto.ResumeListResponseDto;
+import com.mars7.mars7_recruit_backend.resume.dto.ApplicantListResponseDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeRequestDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeResponseDto;
 import com.mars7.mars7_recruit_backend.resume.entity.ResumeEntity;
@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.List;
 
 @Service
@@ -45,22 +43,18 @@ public class ResumeService {
         return ResumeResponseDto.from(savedResume);
     }
 
-    // 지원서 목록 조회 (GET) - 유저 정보 포함
     @Transactional(readOnly = true)
-    public List<ResumeListResponseDto> getAllResumes() {
-        List<ResumeEntity> resumes = resumeRepository.findAll();
+    public List<ApplicantListResponseDto> getApplicantsByRecruitId(Long recruitId) {
+        // findAll() 대신 특정 recruitId로 조회 (레포지토리에 해당 메서드 필요)
+        List<ResumeEntity> resumes = resumeRepository.findAllByRecruitId(recruitId);
 
         return resumes.stream().map(resume -> {
-            // 1. 해당 지원서의 유저 정보 조회
             UserEntity user = userRepository.findById(resume.getUserId())
                     .orElseThrow(() -> new EntityNotFoundException("사용자를 찾을 수 없습니다. ID: " + resume.getUserId()));
 
-            // 2. 나이 계산 (한국식 세는 나이 또는 만나이)
-            // 여기서는 생일(LocalDate) 기반으로 간단한 한국식 나이 계산 예시를 사용합니다.
             int age = LocalDateTime.now().getYear() - user.getBirth().getYear() + 1;
 
-            // 3. 만들어두신 DTO의 'of' 메서드 활용
-            return ResumeListResponseDto.of(resume, user, age);
+            return ApplicantListResponseDto.of(resume, user, age);
         }).toList();
     }
 }
