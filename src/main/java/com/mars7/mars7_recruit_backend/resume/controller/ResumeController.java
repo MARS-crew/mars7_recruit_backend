@@ -7,23 +7,21 @@ import com.mars7.mars7_recruit_backend.resume.dto.ResumeRequestDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeResponseDto;
 import com.mars7.mars7_recruit_backend.resume.service.ResumeService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication; //
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "Resume", description = "지원서 관련 API")
 @RestController
 @RequestMapping("/api/resumes")
 @RequiredArgsConstructor
-@Tag(name = "Resume", description = "지원서 관련 API")
 public class ResumeController {
 
     private final ResumeService resumeService;
-
-    // 지원서 작성
+// 지원서 작성
     @Operation(summary = "지원서 작성", description = "새로운 지원서를 제출하고 결과를 반환합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
     @PostMapping
@@ -31,27 +29,34 @@ public class ResumeController {
         ResumeResponseDto response = resumeService.submitResume(requestDto);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
-
-    // 지원자 목록 조회 (특정 공고 기준)
-    @Operation(summary = "지원자 목록 조회", description = "특정 모집글의 지원자 목록을 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
+    @Operation(summary = "지원자 목록 조회", description = "공고 작성자 본인만 조회가 가능합니다.")
     @GetMapping("/{recruitId}/applicants")
     public ResponseEntity<ApiResponse<List<ApplicantListResponseDto>>> getApplicants(
-            @Parameter(description = "모집글 ID") @PathVariable Long recruitId) {
+            Authentication authentication,
+            @PathVariable Long recruitId) {
 
-        List<ApplicantListResponseDto> response = resumeService.getApplicantsByRecruitId(recruitId);
+        String usersId = authentication.getName(); // JWT 토큰의 usersId
+        List<ApplicantListResponseDto> response = resumeService.getApplicantsByRecruitId(recruitId, usersId);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
-
-    // 지원자 상세 조회 (특정 지원서 기준)
-    @Operation(summary = "지원자 상세 조회", description = "특정 지원서의 상세 정보(자기소개, 연락처 등)를 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
+    @Operation(summary = "지원자 상세 조회", description = "공고 작성자 본인만 조회가 가능합니다.")
     @GetMapping("/{resumeId}/detail")
     public ResponseEntity<ApiResponse<ApplicantDetailResponseDto>> getApplicantDetail(
-            @Parameter(description = "지원서 ID") @PathVariable Long resumeId) {
+            Authentication authentication,
+            @PathVariable Long resumeId) {
 
-        // 서비스에서 상세 정보를 가져옴
-        ApplicantDetailResponseDto response = resumeService.getApplicantDetail(resumeId);
+        String usersId = authentication.getName();
+        ApplicantDetailResponseDto response = resumeService.getApplicantDetail(resumeId, usersId);
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
+    @Operation(summary = "내 지원서 목록 조회")
+    @GetMapping("/my")
+    public ResponseEntity<ApiResponse<List<ResumeResponseDto>>> getMyResumes(Authentication authentication) {
+        String usersId = authentication.getName();
+        List<ResumeResponseDto> response = resumeService.getMyResumes(usersId);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
 }
