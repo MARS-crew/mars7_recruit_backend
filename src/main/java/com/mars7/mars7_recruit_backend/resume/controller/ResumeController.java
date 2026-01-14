@@ -59,4 +59,16 @@ public class ResumeController {
         List<ResumeResponseDto> response = resumeService.getMyResumes(usersId);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
+    @Operation(summary = "내 지원서 상세 조회", description = "로그인한 유저 본인이 작성한 지원서의 상세 내용을 조회합니다.")
+    @GetMapping("/my/{resumeId}")
+    public ResponseEntity<ApiResponse<ApplicantDetailResponseDto>> getMyResumeDetail(
+            Authentication authentication,
+            @PathVariable Long resumeId) {
+
+        // JWT 토큰에서 로그인 아이디(usersId) 추출
+        String usersId = authentication.getName();
+
+        ApplicantDetailResponseDto response = resumeService.getMyResumeDetail(resumeId, usersId);
+        return ResponseEntity.ok(ApiResponse.ok(response));
+    }
 }
