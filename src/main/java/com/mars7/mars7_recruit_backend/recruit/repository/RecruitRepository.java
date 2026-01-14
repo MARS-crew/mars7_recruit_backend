@@ -24,5 +24,10 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Long> {
 
     // 특정 유저의 모집글 조회
     List<RecruitEntity> findByUserIdOrderByCreatedAtDesc(Long userId);
+
+
+    //mainpage
+    List<RecruitEntity> findTop3ByOrderByCreatedAtDesc();
+    List<RecruitEntity> findTop3ByOrderByViewCountDesc();
 }
 
