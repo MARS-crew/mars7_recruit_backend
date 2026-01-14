@@ -1,7 +1,7 @@
 package com.mars7.mars7_recruit_backend.resume.controller;
 
 import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
-import com.mars7.mars7_recruit_backend.resume.dto.ResumeListResponseDto;
+import com.mars7.mars7_recruit_backend.resume.dto.ApplicantListResponseDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeRequestDto;
 import com.mars7.mars7_recruit_backend.resume.dto.ResumeResponseDto;
 import com.mars7.mars7_recruit_backend.resume.service.ResumeService;
@@ -29,10 +29,14 @@ public class ResumeController {
         // ApiResponse.ok()를 통해 success: true, data: response, error: null 상태로 반환
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
-    @Operation(summary = "지원서 조회", description = "지원서 조회.")
+    @Operation(summary = "지원자 조회", description = "특정 모집글의 지원자 목록을 조회합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<ResumeListResponseDto>>> getAllResumes() {
-        return ResponseEntity.ok(ApiResponse.ok(resumeService.getAllResumes()));
+    @GetMapping("/{recruitId}/applicants")
+    public ResponseEntity<ApiResponse<List<ApplicantListResponseDto>>> getApplicants(
+            @PathVariable Long recruitId) { // @PathVariable 추가
+
+        // 특정 공고의 지원자만 가져오도록 서비스 호출
+        List<ApplicantListResponseDto> response = resumeService.getApplicantsByRecruitId(recruitId);
+        return ResponseEntity.ok(ApiResponse.ok(response));
     }
 }
