@@ -39,20 +39,7 @@ public class AuthService {
 
         String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
 
-        UserEntity user = UserEntity.builder()
-                .usersId(requestDto.getUsersId())
-                .password(encodedPassword)
-                .name(requestDto.getName())
-                .phoneNumber(requestDto.getPhoneNumber())
-                .grade(requestDto.getGrade())
-                .major(requestDto.getMajor())
-                .gender(requestDto.getGender())
-                .birth(requestDto.getBirth())
-                .profileImage(requestDto.getProfileImage() != null ? requestDto.getProfileImage() : "https://www.flaticon.com/kr/free-icon/profile_6522516")
-                .address(requestDto.getAddress())
-                .serviceAgreed(requestDto.getServiceAgreed())
-                .apppushAgreed(requestDto.getApppushAgreed())
-                .build();
+        UserEntity user = requestDto.toEntity(encodedPassword);
 
         UserEntity savedUser = userRepository.save(user);
 

@@ -1,12 +1,11 @@
 package com.mars7.mars7_recruit_backend.recruit.entity;
 
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
+import com.mars7.mars7_recruit_backend.common.entity.BaseCreatedTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "resume")
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @Builder
-public class ResumeEntity {
+public class ResumeEntity extends BaseCreatedTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +35,5 @@ public class ResumeEntity {
 
     @Column(name = "self_introduce", length = 500, nullable = false)
     private String selfIntroduce;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 }
 

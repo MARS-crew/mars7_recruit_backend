@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +13,8 @@ import java.time.LocalDateTime;
 @Builder
 @JsonPropertyOrder({"id, usersId, name, phonNumber, grade, major, gender, birth, " +
         "profileImage, address, serviceAgreed, apppushAgreed, createdAt"})
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignupResponseDto {
     @Schema(description = "pk", example = "1")
     private Long id;
