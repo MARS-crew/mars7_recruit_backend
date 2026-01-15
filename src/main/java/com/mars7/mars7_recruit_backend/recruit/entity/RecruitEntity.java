@@ -1,6 +1,7 @@
 package com.mars7.mars7_recruit_backend.recruit.entity;
 
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
+import com.mars7.mars7_recruit_backend.common.entity.BaseEntity;
 import com.mars7.mars7_recruit_backend.common.enums.RecruitField;
 import com.mars7.mars7_recruit_backend.common.enums.RecruitGender;
 import jakarta.persistence.*;
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @Builder
-public class RecruitEntity {
+public class RecruitEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,14 +63,6 @@ public class RecruitEntity {
     @Column(name = "view_count", nullable = false)
     @Builder.Default
     private Integer viewCount = 0;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     public void increaseViewCount() {
         this.viewCount++;

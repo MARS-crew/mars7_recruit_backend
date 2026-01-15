@@ -1,6 +1,7 @@
 package com.mars7.mars7_recruit_backend.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
@@ -69,4 +70,21 @@ public class SignupRequestDto {
     @Schema(description = "앱 푸시 동의 (Boolean)", example = "true")
     @NotNull(message = "필수 입력값입니다.")
     private Boolean apppushAgreed;
+
+    public UserEntity toEntity (String encodedPassword){
+        return UserEntity.builder()
+                .usersId(this.usersId)
+                .password(encodedPassword)
+                .name(this.name)
+                .phoneNumber(this.phoneNumber)
+                .grade(this.grade)
+                .major(this.major)
+                .gender(this.gender)
+                .birth(this.birth)
+                .profileImage(this.profileImage != null ? this.profileImage : "https://www.flaticon.com/kr/free-icon/profile_6522516")
+                .address(this.address)
+                .serviceAgreed(this.serviceAgreed)
+                .apppushAgreed(this.apppushAgreed)
+                .build();
+    }
 }

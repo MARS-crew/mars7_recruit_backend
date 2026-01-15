@@ -45,7 +45,6 @@ public class ResumeService {
                 .userId(request.getUserId())
                 .title(request.getTitle())
                 .selfIntroduce(request.getSelfIntroduce())
-                .createdAt(LocalDateTime.now())
                 .build();
 
         ResumeEntity savedResume = resumeRepository.save(resume);

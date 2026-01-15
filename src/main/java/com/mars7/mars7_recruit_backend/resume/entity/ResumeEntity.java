@@ -1,5 +1,6 @@
 package com.mars7.mars7_recruit_backend.resume.entity;
 
+import com.mars7.mars7_recruit_backend.common.entity.BaseCreatedTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class ResumeEntity {
+public class ResumeEntity extends BaseCreatedTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +29,4 @@ public class ResumeEntity {
 
     @Column(name = "self_introduce", length = 500, nullable = false)
     private String selfIntroduce;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 }

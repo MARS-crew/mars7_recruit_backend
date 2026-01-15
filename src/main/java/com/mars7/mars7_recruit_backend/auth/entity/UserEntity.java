@@ -1,5 +1,6 @@
 package com.mars7.mars7_recruit_backend.auth.entity;
 
+import com.mars7.mars7_recruit_backend.common.entity.BaseEntity;
 import com.mars7.mars7_recruit_backend.common.enums.Gender;
 import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeRequestDto;
 import jakarta.persistence.*;
@@ -13,12 +14,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name= "users")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
@@ -72,13 +72,7 @@ public class UserEntity {
     @Column(nullable = false, name= "apppush_agreed")
     private Boolean apppushAgreed = false;
 
-    @CreatedDate
-    @Column(updatable = false, name="created_at")
-    private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    @Column(updatable = true, name="updated_at")
-    private LocalDateTime updatedAt;
 
     public void updateInfo(InfoChangeRequestDto dto) {
         if (dto.getName() != null) {

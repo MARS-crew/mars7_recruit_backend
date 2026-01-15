@@ -21,7 +21,6 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "회원가입", description = "회원가입 api")
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
     public SignupResponseDto signUp(@Valid @RequestBody SignupRequestDto requestDto) {
         return authService.signUp(requestDto);
     }
