@@ -2,6 +2,7 @@ package com.mars7.mars7_recruit_backend.recruit.entity;
 
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.entity.BaseCreatedTimeEntity;
+import com.mars7.mars7_recruit_backend.common.enums.RecruitStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,5 +36,14 @@ public class ResumeEntity extends BaseCreatedTimeEntity {
 
     @Column(name = "self_introduce", length = 500, nullable = false)
     private String selfIntroduce;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private RecruitStatus status = RecruitStatus.INPROGRESS;
+
+    public void updateStatus(RecruitStatus status) {
+        this.status = status;
+    }
 }
 

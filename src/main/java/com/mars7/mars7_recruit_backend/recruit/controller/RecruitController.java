@@ -121,5 +121,23 @@ public class RecruitController {
         recruitService.deleteRecruit(usersId, recruitId);
         return ApiResponse.ok("모집글이 삭제되었습니다.");
     }
+
+    /**
+     * 8. 지원서 상태 업데이트 (합격/불합격 처리)
+     */
+    @PatchMapping("/{recruitId}/resumes/{resumeId}/status")
+    @Operation(summary = "지원서 상태 업데이트", description = "게시자 본인만 접근 가능하며, 지원자의 합격/불합격 상태를 변경합니다.")
+    @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "상태 업데이트 성공")
+    public ApiResponse<ApplicantInfoDto> updateResumeStatus(
+            Authentication authentication,
+            @Parameter(description = "모집글 ID") @PathVariable Long recruitId,
+            @Parameter(description = "지원서 ID") @PathVariable Long resumeId,
+            @Valid @RequestBody UpdateResumeStatusRequestDto requestDto) {
+
+        String usersId = authentication.getName();
+        ApplicantInfoDto result = recruitService.updateResumeStatus(usersId, recruitId, resumeId, requestDto);
+        return ApiResponse.ok(result);
+    }
 }
+
 

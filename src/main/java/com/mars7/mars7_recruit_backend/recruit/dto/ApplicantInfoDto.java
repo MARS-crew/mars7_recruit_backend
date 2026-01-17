@@ -1,6 +1,7 @@
 package com.mars7.mars7_recruit_backend.recruit.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.mars7.mars7_recruit_backend.common.enums.RecruitStatus;
 import com.mars7.mars7_recruit_backend.recruit.entity.ResumeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 @JsonPropertyOrder({"resumeId", "userId", "userName", "phoneNumber", "grade", "major",
-                     "title", "selfIntroduce", "createdAt"})
+                     "title", "selfIntroduce", "status", "createdAt"})
 @Schema(description = "지원자 정보 DTO")
 public class ApplicantInfoDto {
 
@@ -39,6 +40,9 @@ public class ApplicantInfoDto {
     @Schema(description = "자기소개", example = "안녕하세요. 저는...")
     private String selfIntroduce;
 
+    @Schema(description = "지원 상태", example = "INPROGRESS")
+    private RecruitStatus status;
+
     @Schema(description = "지원일시", example = "2026-01-12T14:30:00")
     private LocalDateTime createdAt;
 
@@ -52,6 +56,7 @@ public class ApplicantInfoDto {
                 .major(resume.getUser().getMajor())
                 .title(resume.getTitle())
                 .selfIntroduce(resume.getSelfIntroduce())
+                .status(resume.getStatus())
                 .createdAt(resume.getCreatedAt())
                 .build();
     }
