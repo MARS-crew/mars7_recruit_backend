@@ -22,7 +22,8 @@ public enum ErrorCode {
     RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND, "RECRUIT_NOT_FOUND", "모집글을 찾을 수 없습니다."),
 
     // 지원서 관련 에러 코드
-    RESUME_NOT_FOUND(HttpStatus.NOT_FOUND, "RESUME_NOT_FOUND", "지원서를 찾을 수 없습니다.");
+    RESUME_NOT_FOUND(HttpStatus.NOT_FOUND, "RESUME_NOT_FOUND", "지원서를 찾을 수 없습니다."),
+    INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "INVALID_INPUT_VALUE", "적절하지 않은 입력 값입니다.");
 
     private final HttpStatus status;
     private final String code;
