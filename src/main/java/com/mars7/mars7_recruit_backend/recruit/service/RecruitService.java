@@ -7,6 +7,7 @@ import com.mars7.mars7_recruit_backend.common.enums.RecruitField;
 import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
 import com.mars7.mars7_recruit_backend.recruit.dto.*;
 import com.mars7.mars7_recruit_backend.recruit.entity.RecruitEntity;
+import com.mars7.mars7_recruit_backend.recruit.entity.ResumeEntity;
 import com.mars7.mars7_recruit_backend.recruit.repository.RecruitRepository;
 import com.mars7.mars7_recruit_backend.recruit.repository.ResumeRepository;
 import lombok.RequiredArgsConstructor;
@@ -170,6 +171,36 @@ public class RecruitService {
         }
 
         recruitRepository.delete(recruit);
+    }
+
+    /**
+     * 8. 지원서 상태 업데이트 (합격/불합격 처리)
+     */
+    @Transactional
+    public ApplicantInfoDto updateResumeStatus(String usersId, Long recruitId, Long resumeId, UpdateResumeStatusRequestDto requestDto) {
+        UserEntity user = userRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        RecruitEntity recruit = recruitRepository.findById(recruitId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.RECRUIT_NOT_FOUND));
+
+        // 게시자 본인인지 확인
+        if (!recruit.getUser().getId().equals(user.getId())) {
+            throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
+
+        ResumeEntity resume = resumeRepository.findByIdWithUserAndRecruit(resumeId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.RESUME_NOT_FOUND));
+
+        // 해당 지원서가 이 모집글에 대한 지원서인지 확인
+        if (!resume.getRecruit().getRecruitId().equals(recruitId)) {
+            throw new BusinessException(ErrorCode.INVALID_REQUEST);
+        }
+
+        // 상태 업데이트
+        resume.updateStatus(requestDto.getStatus());
+
+        return ApplicantInfoDto.from(resume);
     }
 }
 

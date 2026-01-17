@@ -16,9 +16,13 @@ public enum ErrorCode {
     INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_ERROR", "서버 오류"),
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "PASSWORD_MISMATCH", "비밀번호가 일치하지 않습니다."),
     DUPLICATE_PHONE(HttpStatus.CONFLICT, "DUPLICATE_PHONE", "이미 등록된 전화번호입니다."),
+    INVALID_REQUEST(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "잘못된 요청입니다."),
 
     // 모집글 관련 에러 코드
-    RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND, "RECRUIT_NOT_FOUND", "모집글을 찾을 수 없습니다.");
+    RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND, "RECRUIT_NOT_FOUND", "모집글을 찾을 수 없습니다."),
+
+    // 지원서 관련 에러 코드
+    RESUME_NOT_FOUND(HttpStatus.NOT_FOUND, "RESUME_NOT_FOUND", "지원서를 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;
