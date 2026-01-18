@@ -1,0 +1,48 @@
+name: Deploy Spring Boot
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Copy jar to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 125.133.62.199
+          username: marssq
+          key: ${{ secrets.SSH_KEY }}
+          port: 26022
+          source: "build/libs/*.jar"
+          target: "~/mars-backend"
+
+      - name: Run Docker
+        uses: appleboy/ssh-action@v1
+        with:
+          host: 125.133.62.199
+          username: marssq
+          key: ${{ secrets.SSH_KEY }}
+          port: 26022
+          script: |
+            cd ~/mars-backend
+            docker build -t mars7 .
+            docker stop mars7 || true
+            docker rm mars7 || true
+            docker run -d \
+              --name mars7 \
+              -p 8080:8080 \
+              --env-file .env \
+              --restart always \
+              mars7
