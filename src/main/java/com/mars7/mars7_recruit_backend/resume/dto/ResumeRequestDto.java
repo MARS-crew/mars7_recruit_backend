@@ -10,9 +10,6 @@ public class ResumeRequestDto {
     @Schema(description = "모집공고 ID", example = "1")
     private Long recruitId;
 
-    @Schema(description = "유저 고유 ID", example = "1")
-    private Long userId;
-
     @Schema(description = "지원서 제목", example = "백엔드 개발자 지원")
     private String title;
 
