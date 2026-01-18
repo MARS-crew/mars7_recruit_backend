@@ -25,5 +25,8 @@ public interface ResumeRepository extends JpaRepository<ResumeEntity, Long> {
     // 지원서 조회 (User 정보 함께 조회)
     @Query("SELECT r FROM ResumeEntity r JOIN FETCH r.user JOIN FETCH r.recruit WHERE r.resumeId = :resumeId")
     Optional<ResumeEntity> findByIdWithUserAndRecruit(@Param("resumeId") Long resumeId);
+
+    // 특정 모집글과 관련된 모든 이력서 삭제
+    void deleteByRecruitRecruitId(Long recruitId);
 }
 
