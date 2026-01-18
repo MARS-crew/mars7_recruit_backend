@@ -21,12 +21,16 @@ import java.util.List;
 public class ResumeController {
 
     private final ResumeService resumeService;
-// 지원서 작성
+    // 지원서 작성
     @Operation(summary = "지원서 작성", description = "새로운 지원서를 제출하고 결과를 반환합니다.")
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
     @PostMapping
-    public ResponseEntity<ApiResponse<ResumeResponseDto>> submitResume(@RequestBody ResumeRequestDto requestDto) {
-        ResumeResponseDto response = resumeService.submitResume(requestDto);
+    public ResponseEntity<ApiResponse<ResumeResponseDto>> submitResume(
+            Authentication authentication, // 인증 정보 추가
+            @RequestBody ResumeRequestDto requestDto) {
+
+        String usersId = authentication.getName(); // JWT에서 usersId(로그인 ID) 추출
+        ResumeResponseDto response = resumeService.submitResume(requestDto, usersId);
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")

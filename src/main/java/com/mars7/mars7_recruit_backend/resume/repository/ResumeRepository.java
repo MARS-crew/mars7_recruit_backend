@@ -8,9 +8,9 @@ import java.util.List;
 @Repository("userResumeRepository")
 public interface ResumeRepository extends JpaRepository<ResumeEntity, Long> {
 
-    // 특정 모집공고에 지원한 사람들 목록 조회
-    List<ResumeEntity> findAllByRecruitId(Long recruitId);
+    // 특정 모집공고에 특정 유저가 이미 지원했는지 확인
+    boolean existsByRecruitIdAndUserId(Long recruitId, Long userId);
 
-    // 특정 유저(userId PK값)가 작성한 지원서 목록 조회
+    List<ResumeEntity> findAllByRecruitId(Long recruitId);
     List<ResumeEntity> findAllByUserId(Long userId);
 }

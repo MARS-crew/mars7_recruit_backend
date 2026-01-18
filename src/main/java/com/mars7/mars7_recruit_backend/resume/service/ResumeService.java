@@ -38,11 +38,25 @@ public class ResumeService {
     /**
      * 지원서 작성
      */
+    /**
+     * 지원서 작성
+     */
     @Transactional
-    public ResumeResponseDto submitResume(ResumeRequestDto request) {
+    public ResumeResponseDto submitResume(ResumeRequestDto request, String usersId) {
+        // 1. JWT로부터 얻은 usersId로 유저 엔티티 조회
+        UserEntity user = mypageRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // 2. 중복 지원 체크: 동일한 모집글에 이미 지원했는지 확인
+        if (resumeRepository.existsByRecruitIdAndUserId(request.getRecruitId(), user.getId())) {
+            // 이미 지원한 경우 예외 발생 (적절한 에러 코드가 없다면 INVALID_INPUT_VALUE 등 사용)
+            throw new BusinessException(ErrorCode.ALREADY_APPLIED);
+        }
+
+        // 3. 지원서 엔티티 생성 및 저장
         ResumeEntity resume = ResumeEntity.builder()
                 .recruitId(request.getRecruitId())
-                .userId(request.getUserId())
+                .userId(user.getId())
                 .title(request.getTitle())
                 .selfIntroduce(request.getSelfIntroduce())
                 .build();
