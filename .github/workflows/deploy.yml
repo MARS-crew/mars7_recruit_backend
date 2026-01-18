@@ -31,7 +31,7 @@ jobs:
           username: marssq
           key: ${{ secrets.SSH_KEY }}
           port: 26022
-          source: "build/libs/*.jar"
+          source: "build/libs/*.jar,Dockerfile"
           target: "~/mars-backend"
 
       - name: Run Docker
