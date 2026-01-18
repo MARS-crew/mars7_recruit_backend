@@ -10,6 +10,7 @@ import com.mars7.mars7_recruit_backend.recruit.entity.RecruitEntity;
 import com.mars7.mars7_recruit_backend.recruit.entity.ResumeEntity;
 import com.mars7.mars7_recruit_backend.recruit.repository.RecruitRepository;
 import com.mars7.mars7_recruit_backend.recruit.repository.ResumeRepository;
+import com.mars7.mars7_recruit_backend.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ public class RecruitService {
     private final RecruitRepository recruitRepository;
     private final ResumeRepository resumeRepository;
     private final UserRepository userRepository;
+    private final NoticeRepository noticeRepository;
 
     /**
      * 1. 동아리 검색 (키워드로 제목/내용 검색)
@@ -170,6 +172,12 @@ public class RecruitService {
             throw new BusinessException(ErrorCode.FORBIDDEN);
         }
 
+        // 외래키 제약 조건 위반 방지: 모집글 삭제 전에 관련 데이터를 먼저 삭제
+        // 1. 관련 알림(notice) 삭제
+        noticeRepository.deleteByRecruitId(recruitId);
+        // 2. 관련 이력서(resume) 삭제
+        resumeRepository.deleteByRecruitRecruitId(recruitId);
+        // 3. 모집글 삭제
         recruitRepository.delete(recruit);
     }
 
