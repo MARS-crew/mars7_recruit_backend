@@ -49,6 +49,7 @@ jobs:
             docker rm mars7 || true
             docker run -d \
               --name mars7 \
+              --network mars-net \
               -p 8080:8080 \
               --env-file .env \
               --restart always \
