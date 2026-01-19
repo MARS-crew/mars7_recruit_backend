@@ -50,7 +50,7 @@ jobs:
             docker run -d \
               --name mars7 \
               --network mars \
-              -p 18080:8080 \
+              -p 26900:8080 \
               --env-file .env \
               --restart always \
               mars7
