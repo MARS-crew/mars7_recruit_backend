@@ -46,6 +46,7 @@ jobs:
             docker stop mars7 || true
             docker rm mars7 || true
             docker rmi mars7 || true
+            ls -R
             docker build --no-cache -t mars7 .
             docker run -d \
               --name mars7 \
