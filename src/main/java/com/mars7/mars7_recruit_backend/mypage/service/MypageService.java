@@ -3,10 +3,7 @@ package com.mars7.mars7_recruit_backend.mypage.service;
 import com.mars7.mars7_recruit_backend.auth.entity.UserEntity;
 import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
 import com.mars7.mars7_recruit_backend.common.exception.BusinessException;
-import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeRequestDto;
-import com.mars7.mars7_recruit_backend.mypage.dto.InfoChangeResponseDto;
-import com.mars7.mars7_recruit_backend.mypage.dto.PwChangeRequestDto;
-import com.mars7.mars7_recruit_backend.mypage.dto.PwChangeResponseDto;
+import com.mars7.mars7_recruit_backend.mypage.dto.*;
 import com.mars7.mars7_recruit_backend.mypage.repository.MypageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +15,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class MypageService {
     private final MypageRepository mypageRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Transactional(readOnly = true)
+    public InfoCheckResponseDto UserInfo(String usersId) {
+        UserEntity user = mypageRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        return InfoCheckResponseDto.builder()
+                .id(user.getId())
+                .usersId(user.getUsersId())
+                .name(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .grade(user.getGrade())
+                .major(user.getMajor())
+                .profileImage(user.getProfileImage())
+                .apppushAgreed(user.getApppushAgreed())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
 
     @Transactional
     public InfoChangeResponseDto updateUserInfo(String usersId, InfoChangeRequestDto dto) {
