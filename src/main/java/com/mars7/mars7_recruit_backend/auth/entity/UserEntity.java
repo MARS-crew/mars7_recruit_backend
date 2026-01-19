@@ -60,7 +60,7 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private LocalDate birth;
 
-    @Column(nullable = false, name="profile_image")
+    @Column(nullable = true, name="profile_image")
     private String profileImage;
 
     @Column(nullable = false)

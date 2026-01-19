@@ -81,7 +81,7 @@ public class SignupRequestDto {
                 .major(this.major)
                 .gender(this.gender)
                 .birth(this.birth)
-                .profileImage(this.profileImage != null ? this.profileImage : "https://www.flaticon.com/kr/free-icon/profile_6522516")
+                .profileImage(this.profileImage)
                 .address(this.address)
                 .serviceAgreed(this.serviceAgreed)
                 .apppushAgreed(this.apppushAgreed)
