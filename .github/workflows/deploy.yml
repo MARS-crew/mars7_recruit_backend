@@ -33,7 +33,6 @@ jobs:
           port: 26022
           source: "build/libs/*.jar,Dockerfile"
           target: "~/mars-backend"
-          strip_components: 2
 
       - name: Run Docker
         uses: appleboy/ssh-action@v1
@@ -52,7 +51,7 @@ jobs:
             docker run -d \
               --name mars7 \
               --network mars \
-              -p 9000:8080 \
+              -p 26900:8080 \
               --env-file .env \
               --restart always \
               mars7
