@@ -44,9 +44,10 @@ jobs:
           port: 26022
           script: |
             cd ~/mars-backend
-            docker build -t mars7 .
             docker stop mars7 || true
             docker rm mars7 || true
+            docker rmi mars7 || true
+            docker build --no-cache -t mars7 .
             docker run -d \
               --name mars7 \
               --network mars \
