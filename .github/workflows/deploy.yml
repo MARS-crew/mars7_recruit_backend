@@ -33,7 +33,7 @@ jobs:
           port: 26022
           source: |
             build/libs/*.jar
-            Dockerfile
+            ./Dockerfile
           target: "~/mars-backend"
 
       - name: Run Docker
