@@ -33,7 +33,6 @@ jobs:
           port: 26022
           source: "build/libs/*.jar,Dockerfile"
           target: "~/mars-backend"
-          strip_components: 2
 
       - name: Run Docker
         uses: appleboy/ssh-action@v1
