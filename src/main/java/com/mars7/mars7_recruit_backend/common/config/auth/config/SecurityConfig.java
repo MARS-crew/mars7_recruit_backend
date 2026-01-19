@@ -3,6 +3,7 @@ package com.mars7.mars7_recruit_backend.common.config.auth.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -42,7 +43,9 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/mainpage/**").permitAll()
-                        .requestMatchers("/api/v1/recruits/{recruitId}", "/api/v1/recruits", "/api/v1/recruits/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recruits").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recruits/search").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/recruits/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
