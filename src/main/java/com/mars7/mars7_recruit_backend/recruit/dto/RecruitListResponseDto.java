@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@JsonPropertyOrder({"recruitId", "title", "content", "field", "gender", "people", "dueDate", "posterImage", "viewCount", "createdAt"})
+@JsonPropertyOrder({"recruitId", "title", "content", "field", "gender", "people", "dueDate", "posterImage", "viewCount", "createdAt","startDate"})
 @Schema(description = "모집글 목록 조회용 간략 응답 DTO")
 public class RecruitListResponseDto {
 
@@ -34,6 +34,9 @@ public class RecruitListResponseDto {
     @Schema(description = "모집 인원", example = "10")
     private Integer people;
 
+    @Schema(description = "모집 시작일", example = "2026-01-10T10:30:00")
+    private LocalDateTime startDate;
+
     @Schema(description = "모집 마감일", example = "2026-01-31T23:59:59")
     private LocalDateTime dueDate;
 
@@ -46,6 +49,7 @@ public class RecruitListResponseDto {
     @Schema(description = "생성일시", example = "2026-01-10T10:30:00")
     private LocalDateTime createdAt;
 
+
     public static RecruitListResponseDto from(RecruitEntity entity) {
         return RecruitListResponseDto.builder()
                 .recruitId(entity.getRecruitId())
@@ -54,6 +58,7 @@ public class RecruitListResponseDto {
                 .field(entity.getField())
                 .gender(entity.getGender())
                 .people(entity.getPeople())
+                .startDate(entity.getStartDate())
                 .dueDate(entity.getDueDate())
                 .posterImage(entity.getPosterImage())
                 .viewCount(entity.getViewCount())
