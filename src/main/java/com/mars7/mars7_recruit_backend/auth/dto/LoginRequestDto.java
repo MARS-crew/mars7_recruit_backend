@@ -18,4 +18,7 @@ public class LoginRequestDto {
     @NotNull(message = "비밀번호를 입력해주세요.")
     @Size(min=8, max=20)
     private String password;
+
+    @Schema(description = "아이디 저장", example = "false")
+    private Boolean rememberMe;
 }

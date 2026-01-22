@@ -67,13 +67,17 @@ public class AuthService {
 
         String accessToken = jwtProvider.createAccessToken(user.getUsersId());
         String refreshToken = jwtProvider.createRefreshToken();
+        Boolean rememberMe=requestDto.getRememberMe();
 
         user.updateRefreshToken(refreshToken, LocalDateTime.now().plusDays(14));
+
+        user.updateRememberMe(rememberMe);
 
         return LoginResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .userDetails(SignupResponseDto.from(user))
+                .rememberMe(rememberMe)
                 .build();
     }
 

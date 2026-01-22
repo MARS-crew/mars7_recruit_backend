@@ -72,6 +72,9 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, name= "apppush_agreed")
     private Boolean apppushAgreed = false;
 
+    @Column(nullable = false, name= "remember_me")
+    private Boolean rememberMe  = false;
+
 
 
     public void updateInfo(InfoChangeRequestDto dto) {
@@ -99,4 +102,9 @@ public class UserEntity extends BaseEntity {
         this.password = encodedPassword;
     }
 
+     public void updateRememberMe(Boolean rememberMe) {
+        if (rememberMe != null) {
+            this.rememberMe = rememberMe;
+        }
+    }
 }
