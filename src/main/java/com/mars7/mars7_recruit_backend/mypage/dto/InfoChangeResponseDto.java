@@ -32,9 +32,6 @@ public class InfoChangeResponseDto {
     @Schema(description = "프로필 이미지", example = "https://example.com/profile.jpg")
     private String profileImage;
 
-    @Schema(description = "푸시 동의 여부", example = "true")
-    private Boolean apppushAgreed;
-
     @Schema(description = "계정 생성 일시", example = "2026-01-10T23:45:00")
     private LocalDateTime createdAt;
 

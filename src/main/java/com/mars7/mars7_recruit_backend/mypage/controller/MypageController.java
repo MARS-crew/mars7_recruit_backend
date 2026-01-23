@@ -50,4 +50,14 @@ public class MypageController {
         return ApiResponse.ok(response);
     }
 
+    @Operation(summary = "푸시 알림 변경", description = "푸시 알림 변경, true면 false > false면 true")
+    @PatchMapping("/push")
+    public ApiResponse<PushChangeResponeseDto> pushChange(
+            Authentication authentication
+    ){
+        String usersId = authentication.getName();
+        PushChangeResponeseDto response = mypageService.pushChange(usersId);
+        return ApiResponse.ok(response);
+    }
+
 }

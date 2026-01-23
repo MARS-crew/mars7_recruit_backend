@@ -24,7 +24,9 @@ public enum ErrorCode {
     // 지원서 관련 에러 코드
     RESUME_NOT_FOUND(HttpStatus.NOT_FOUND, "RESUME_NOT_FOUND", "지원서를 찾을 수 없습니다."),
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "INVALID_INPUT_VALUE", "적절하지 않은 입력 값입니다."),
-    ALREADY_APPLIED(HttpStatus.BAD_REQUEST, "ALREADY_APPLIED", "이미 지원한 공고입니다.");
+    ALREADY_APPLIED(HttpStatus.BAD_REQUEST, "ALREADY_APPLIED", "이미 지원한 공고입니다."),
+
+    NOT_FOUND_NOTICE(HttpStatus.NOT_FOUND, "NOT_FOUND_NOTICE", "존재하지 않는 알림입니다.");
     private final HttpStatus status;
     private final String code;
     private final String message;

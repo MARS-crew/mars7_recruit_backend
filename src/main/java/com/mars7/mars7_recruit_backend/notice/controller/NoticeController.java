@@ -33,7 +33,7 @@ public class NoticeController {
     }
 
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
-    @Operation(summary = "알림 읽음 처리", description = "알림을 클릭했을 때 읽음 상태로 변경합니다.")
+    @Operation(summary = "알림 읽음 처리", description = "알림 읽음 상태로 변경합니다.")
     @PatchMapping("/{noticeId}/read")
     public ResponseEntity<ApiResponse<Void>> markAsRead(
             Authentication authentication,

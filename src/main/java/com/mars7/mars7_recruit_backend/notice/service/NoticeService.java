@@ -37,7 +37,7 @@ public class NoticeService {
     public void readNotice(Long noticeId, String usersId) {
         // 3. 알림 조회 (에러 코드 정의 확인 필요)
         NoticeEntity notice = noticeRepository.findById(noticeId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND)); // 임시로 USER_NOT_FOUND 사용 혹은 정의된 코드 사용
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_NOTICE)); // 임시로 USER_NOT_FOUND 사용 혹은 정의된 코드 사용
 
         // 4. 로그인 유저 조회
         UserEntity user = mypageRepository.findByUsersId(usersId)
