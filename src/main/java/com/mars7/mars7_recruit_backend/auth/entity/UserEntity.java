@@ -107,4 +107,8 @@ public class UserEntity extends BaseEntity {
             this.rememberMe = rememberMe;
         }
     }
+
+    public void setApppushAgreed() {
+        this.apppushAgreed = !this.apppushAgreed;
+    }
 }

@@ -56,7 +56,6 @@ public class MypageService {
                 .grade(user.getGrade())
                 .major(user.getMajor())
                 .profileImage(user.getProfileImage())
-                .apppushAgreed(user.getApppushAgreed())
                 .createdAt(user.getCreatedAt())
                 .updatedAt(user.getUpdatedAt())
                 .build();
@@ -80,4 +79,20 @@ public class MypageService {
                 .Message("비밀번호가 성공적으로 변경되었습니다.")
                 .build();
     }
-}
+
+    @Transactional
+    public PushChangeResponeseDto pushChange(String usersId) {
+        UserEntity user = mypageRepository.findByUsersId(usersId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        user.setApppushAgreed();
+
+        return PushChangeResponeseDto.builder()
+                .id(user.getId())
+                .usersId(user.getUsersId())
+                .name(user.getName())
+                .apppushAgreed(user.getApppushAgreed())
+                .updatedAt(user.getUpdatedAt())
+                .build();
+    }
+    }
