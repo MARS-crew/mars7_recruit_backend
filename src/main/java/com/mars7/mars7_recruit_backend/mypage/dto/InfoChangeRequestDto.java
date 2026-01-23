@@ -25,6 +25,9 @@ public class InfoChangeRequestDto {
     @Schema(description = "프로필 이미지", example = "https://item.kakaocdn.net/do/37afd3f69a8b85bd2c9c490e7ab1ff617154249a3890514a43687a85e6b6cc82")
     private String profileImage;
 
+    @Schema(description = "주소", example = "서울특별시 봉천동")
+    private String address;
+
     @Schema(description = "앱 푸시 동의 (Boolean)", example = "true")
     private Boolean apppushAgreed;
 }

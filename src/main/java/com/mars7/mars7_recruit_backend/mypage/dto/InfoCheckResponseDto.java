@@ -30,6 +30,9 @@ public class InfoCheckResponseDto {
     @Schema(description = "전공", example = "컴퓨터정보공학과")
     private String major;
 
+    @Schema(description = "주소", example = "서울특별시 봉천동")
+    private String address;
+
     @Schema(description = "프로필 이미지", example = "https://example.com/profile.jpg")
     private String profileImage;
 
