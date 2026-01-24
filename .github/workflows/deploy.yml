@@ -52,6 +52,7 @@ jobs:
               --name mars7 \
               --network mars \
               -p 9000:8080 \
+              -v /home/marssq/shared:/images \
               --env-file .env \
               --restart always \
               mars7
