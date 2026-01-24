@@ -42,7 +42,7 @@ public class SwaggerConfig {
                 .info(apiInfo())
                 .addSecurityItem(securityRequirement)
                 .components(components)
-        .servers(List.of(productionServer, localServer)); // servers 추가
+                .servers(List.of(productionServer, localServer)); // servers 추가
     }
 
     private Info apiInfo() {
