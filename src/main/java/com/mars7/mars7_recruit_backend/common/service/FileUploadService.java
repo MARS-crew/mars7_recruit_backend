@@ -18,10 +18,10 @@ import java.util.UUID;
 @Service
 public class FileUploadService {
 
-    @Value("${file.upload-dir:/images/images}")
+    @Value("${file.upload-dir:/images}")
     private String uploadDir;
 
-    @Value("${file.base-url:http://125.133.62.199:9000/images}")
+    @Value("${file.base-url:http://125.133.62.199:26900/images}")
     private String baseUrl;
 
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png", "webp");
