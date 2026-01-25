@@ -31,7 +31,7 @@ public class SwaggerConfig {
         );
        
         Server productionServer = new Server();
-        productionServer.setUrl("http://125.133.62.199:9000");
+        productionServer.setUrl("http://125.133.62.199:26900");
         productionServer.setDescription("Mars7 배포 서버");
 
         Server localServer = new Server();
