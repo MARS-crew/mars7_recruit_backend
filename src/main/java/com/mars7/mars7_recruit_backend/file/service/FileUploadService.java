@@ -1,4 +1,4 @@
-package com.mars7.mars7_recruit_backend.common.service;
+package com.mars7.mars7_recruit_backend.file.service;
 
 import com.mars7.mars7_recruit_backend.common.enums.ErrorCode;
 import com.mars7.mars7_recruit_backend.common.exception.BusinessException;

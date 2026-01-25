@@ -1,12 +1,11 @@
-package com.mars7.mars7_recruit_backend.common.controller;
+package com.mars7.mars7_recruit_backend.file.controller;
 
 import com.mars7.mars7_recruit_backend.common.dto.ApiResponse;
-import com.mars7.mars7_recruit_backend.common.dto.ImageUploadResponseDto;
-import com.mars7.mars7_recruit_backend.common.service.FileUploadService;
+import com.mars7.mars7_recruit_backend.file.dto.ImageUploadResponseDto;
+import com.mars7.mars7_recruit_backend.file.service.FileUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
