@@ -34,7 +34,7 @@ public enum ErrorCode {
     FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "FILE_UPLOAD_FAILED", "파일 업로드에 실패했습니다."),
     FILE_EMPTY(HttpStatus.BAD_REQUEST, "FILE_EMPTY", "파일이 비어있습니다."),
     FILE_SIZE_EXCEEDED(HttpStatus.BAD_REQUEST, "FILE_SIZE_EXCEEDED", "파일 크기는 10MB를 초과할 수 없습니다."),
-    FILE_TYPE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "FILE_TYPE_NOT_ALLOWED", "허용되지 않는 파일 형식입니다. (jpg, png, webp만 허용)");
+    FILE_TYPE_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "FILE_TYPE_NOT_ALLOWED", "허용되지 않는 파일 형식입니다. (jpg, jpeg, png, webp만 허용)");
 
     private final HttpStatus status;
     private final String code;
