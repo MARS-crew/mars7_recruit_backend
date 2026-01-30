@@ -111,4 +111,25 @@ public class AuthService {
                 .message("회원 탈퇴가 완료되었습니다.")
                 .build();
     }
+
+    @Transactional
+    public TokenReissueResponseDto reissue(TokenReissueRequestDto request) {
+
+        String refreshToken = request.getRefreshToken();
+
+        UserEntity user = userRepository.findByRefreshToken(refreshToken)
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_TOKEN));
+
+        if (user.isRefreshTokenExpired()) {
+            throw new BusinessException(ErrorCode.EXPIRED_REFRESH_TOKEN);
+        }
+
+        if (!jwtProvider.validateToken(refreshToken)) {
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+        }
+
+        String newAccessToken = jwtProvider.createAccessToken(user.getUsersId());
+
+        return new TokenReissueResponseDto(newAccessToken);
+    }
 }
