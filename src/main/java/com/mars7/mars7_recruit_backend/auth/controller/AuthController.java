@@ -52,4 +52,11 @@ public class AuthController {
         String usersId = authentication.getName();
         return ApiResponse.ok(authService.delete(usersId));
     }
+
+    @PostMapping("/reissue")
+    @Operation(summary = "리프레시 토큰 재발급", description = "리프레시 토큰 재발급 api")
+    public ApiResponse<TokenReissueResponseDto> reissue(
+            @RequestBody TokenReissueRequestDto request) {
+        return ApiResponse.ok(authService.reissue(request));
+    }
 }

@@ -30,14 +30,14 @@ public class UserEntity extends BaseEntity {
     @Column(length = 255, nullable = false)
     private String password;
 
-    @Column(name = "refresh_token_hash")
-    private String refreshTokenHash;
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
     @Column(name = "refresh_token_expires_at")
     private LocalDateTime refreshTokenExpiresAt;
 
-    public void updateRefreshToken(String hash, LocalDateTime expiresAt) {
-        this.refreshTokenHash = hash;
+    public void updateRefreshToken(String token, LocalDateTime expiresAt) {
+        this.refreshToken = token;
         this.refreshTokenExpiresAt = expiresAt;
     }
 
@@ -75,8 +75,6 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false, name= "remember_me")
     private Boolean rememberMe  = false;
 
-
-
     public void updateInfo(InfoChangeRequestDto dto) {
         if (dto.getName() != null) {
             this.name = dto.getName();
@@ -110,5 +108,12 @@ public class UserEntity extends BaseEntity {
 
     public void setApppushAgreed() {
         this.apppushAgreed = !this.apppushAgreed;
+    }
+
+    public boolean isRefreshTokenExpired() {
+        if (this.refreshTokenExpiresAt == null) {
+            return true;
+        }
+        return this.refreshTokenExpiresAt.isBefore(LocalDateTime.now());
     }
 }
