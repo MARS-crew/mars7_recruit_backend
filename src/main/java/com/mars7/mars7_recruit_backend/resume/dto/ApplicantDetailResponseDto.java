@@ -5,7 +5,6 @@ import com.mars7.mars7_recruit_backend.resume.entity.ResumeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -14,6 +13,9 @@ public class ApplicantDetailResponseDto {
 
     @Schema(description = "지원서 ID", example = "1")
     private Long resumeId;
+
+    @Schema(description = "열람 여부", example = "true")
+    private Boolean isRead;
 
     @Schema(description = "타이틀", example = "백엔드 개발자 지원")
     private String title;
@@ -48,6 +50,7 @@ public class ApplicantDetailResponseDto {
     public static ApplicantDetailResponseDto of(ResumeEntity resume, UserEntity user, Integer age) {
         return ApplicantDetailResponseDto.builder()
                 .resumeId(resume.getResumeId())
+                .isRead(resume.getIsRead())
                 .title(resume.getTitle())
                 .name(user.getName())
                 .gender(user.getGender().toString())

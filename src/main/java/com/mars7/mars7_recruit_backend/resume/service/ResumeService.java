@@ -97,7 +97,7 @@ public class ResumeService {
     /**
      * 지원자 상세 조회 (공고 작성자 본인 확인 로직)
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public ApplicantDetailResponseDto getApplicantDetail(Long resumeId, String usersId) {
         // 1. 접속한 유저 정보 조회
         UserEntity currentUser = mypageRepository.findByUsersId(usersId)
@@ -113,6 +113,12 @@ public class ResumeService {
         // 3. 게시자 본인 여부 확인
         if (!recruit.getUser().getId().equals(currentUser.getId())) {
             throw new BusinessException(ErrorCode.FORBIDDEN);
+        }
+
+        // 4. 열람 상태 업데이트 (미열람 -> 열람)
+        if (!resume.getIsRead()) {
+            resume.updateIsRead(true);
+            resumeRepository.save(resume);
         }
 
         UserEntity applicantUser = mypageRepository.findById(resume.getUserId())
