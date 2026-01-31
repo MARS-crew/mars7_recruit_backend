@@ -3,7 +3,6 @@ package com.mars7.mars7_recruit_backend.resume.entity;
 import com.mars7.mars7_recruit_backend.common.entity.BaseCreatedTimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.LocalDateTime;
 
 @Entity(name = "UserResumeEntity")
 @Table(name = "resume")
@@ -29,4 +28,13 @@ public class ResumeEntity extends BaseCreatedTimeEntity {
 
     @Column(name = "self_introduce", length = 500, nullable = false)
     private String selfIntroduce;
+
+    @Builder.Default
+    @Column(name = "is_read", nullable = false)
+    private Boolean isRead = false;
+
+    // 열람 상태 변경 메서드
+    public void updateIsRead(Boolean isRead) {
+        this.isRead = isRead;
+    }
 }
