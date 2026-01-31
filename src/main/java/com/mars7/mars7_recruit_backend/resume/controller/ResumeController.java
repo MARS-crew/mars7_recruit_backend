@@ -34,7 +34,7 @@ public class ResumeController {
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
-    @Operation(summary = "지원자 목록 조회", description = "공고 작성자 본인만 조회가 가능합니다.")
+    @Operation(summary = "지원자 목록 조회", description = "공고 작성자 본인만 조회가 가능합니다. 응답에 열람 여부(isRead)가 포함됩니다.")
     @GetMapping("/{recruitId}/applicants")
     public ResponseEntity<ApiResponse<List<ApplicantListResponseDto>>> getApplicants(
             Authentication authentication,
@@ -45,7 +45,7 @@ public class ResumeController {
         return ResponseEntity.ok(ApiResponse.ok(response));
     }
     @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "성공")
-    @Operation(summary = "지원자 상세 조회", description = "공고 작성자 본인만 조회가 가능합니다.")
+    @Operation(summary = "지원자 상세 조회", description = "공고 작성자 본인만 조회가 가능합니다. 조회 시 해당 지원서의 열람 상태(isRead)가 true로 업데이트됩니다.")
     @GetMapping("/{resumeId}/detail")
     public ResponseEntity<ApiResponse<ApplicantDetailResponseDto>> getApplicantDetail(
             Authentication authentication,
