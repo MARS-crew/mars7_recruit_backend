@@ -29,12 +29,14 @@ public class ResumeEntity extends BaseCreatedTimeEntity {
     @Column(name = "self_introduce", length = 500, nullable = false)
     private String selfIntroduce;
 
-    @Builder.Default
     @Column(name = "is_read", nullable = false)
+    @Builder.Default
     private Boolean isRead = false;
 
-    // 열람 상태 변경 메서드
-    public void updateIsRead(Boolean isRead) {
-        this.isRead = isRead;
+    /**
+     * 열람 상태를 true로 변경
+     */
+    public void markAsRead() {
+        this.isRead = true;
     }
 }

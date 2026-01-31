@@ -96,6 +96,7 @@ public class ResumeService {
 
     /**
      * 지원자 상세 조회 (공고 작성자 본인 확인 로직)
+     * 조회 시 열람 상태를 true로 업데이트
      */
     @Transactional
     public ApplicantDetailResponseDto getApplicantDetail(Long resumeId, String usersId) {
@@ -115,11 +116,8 @@ public class ResumeService {
             throw new BusinessException(ErrorCode.FORBIDDEN);
         }
 
-        // 4. 열람 상태 업데이트 (미열람 -> 열람)
-        if (!resume.getIsRead()) {
-            resume.updateIsRead(true);
-            resumeRepository.save(resume);
-        }
+        // 4. 열람 상태를 true로 업데이트
+        resume.markAsRead();
 
         UserEntity applicantUser = mypageRepository.findById(resume.getUserId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
