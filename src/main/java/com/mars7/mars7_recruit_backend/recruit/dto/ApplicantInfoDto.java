@@ -11,13 +11,16 @@ import java.time.LocalDateTime;
 
 @Getter
 @Builder
-@JsonPropertyOrder({"resumeId", "userId", "userName", "phoneNumber", "grade", "major",
+@JsonPropertyOrder({"resumeId", "isRead", "userId", "userName", "phoneNumber", "grade", "major",
                      "title", "selfIntroduce", "status", "createdAt"})
 @Schema(description = "지원자 정보 DTO")
 public class ApplicantInfoDto {
 
     @Schema(description = "지원서 ID", example = "1")
     private Long resumeId;
+
+    @Schema(description = "열람 여부", example = "false")
+    private Boolean isRead;
 
     @Schema(description = "지원자 ID", example = "1")
     private Long userId;
@@ -49,6 +52,7 @@ public class ApplicantInfoDto {
     public static ApplicantInfoDto from(ResumeEntity resume) {
         return ApplicantInfoDto.builder()
                 .resumeId(resume.getResumeId())
+                .isRead(resume.getIsRead())
                 .userId(resume.getUser().getId())
                 .userName(resume.getUser().getName())
                 .phoneNumber(resume.getUser().getPhoneNumber())
