@@ -42,8 +42,19 @@ public class ResumeEntity extends BaseCreatedTimeEntity {
     @Builder.Default
     private RecruitStatus status = RecruitStatus.INPROGRESS;
 
+    @Column(name = "is_read", nullable = false)
+    @Builder.Default
+    private Boolean isRead = false;
+
     public void updateStatus(RecruitStatus status) {
         this.status = status;
+    }
+
+    /**
+     * 열람 상태를 true로 변경
+     */
+    public void markAsRead() {
+        this.isRead = true;
     }
 }
 

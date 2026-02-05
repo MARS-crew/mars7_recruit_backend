@@ -15,7 +15,8 @@ public class ApplicantListResponseDto {
     @Schema(description = "지원서 ID", example = "1")
     private Long resumeId;
 
-
+    @Schema(description = "열람 여부", example = "false")
+    private Boolean isRead;
 
     @Schema(description = "지원 시간")
     private LocalDateTime createdAt;
@@ -41,6 +42,7 @@ public class ApplicantListResponseDto {
     public static ApplicantListResponseDto of(ResumeEntity resume, UserEntity user, Integer age) {
         return ApplicantListResponseDto.builder()
                 .resumeId(resume.getResumeId())
+                .isRead(resume.getIsRead())
                 .createdAt(resume.getCreatedAt())
                 .name(user.getName())
                 .gender(user.getGender().toString())

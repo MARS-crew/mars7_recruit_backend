@@ -18,7 +18,7 @@ public enum ErrorCode {
     DUPLICATE_PHONE(HttpStatus.CONFLICT, "DUPLICATE_PHONE", "이미 등록된 전화번호입니다."),
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "INVALID_REQUEST", "잘못된 요청입니다."),
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, "INVALID_TOKEN", "유효하지 않은 토큰입니다."),
-    EXPIRED_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "EXPIRED_REFRESH_TOKEN", "리프레시 토큰이 만료되었습니다."),
+    EXPIRED_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "EXPIRED_REFRESH_TOKEN", "리프레시 토큰이 만료되었습니다."),
 
     // 모집글 관련 에러 코드
     RECRUIT_NOT_FOUND(HttpStatus.NOT_FOUND, "RECRUIT_NOT_FOUND", "모집글을 찾을 수 없습니다."),
