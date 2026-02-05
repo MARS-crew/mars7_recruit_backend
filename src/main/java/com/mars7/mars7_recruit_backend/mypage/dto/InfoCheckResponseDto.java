@@ -2,10 +2,12 @@ package com.mars7.mars7_recruit_backend.mypage.dto;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mars7.mars7_recruit_backend.common.entity.BaseEntity;
+import com.mars7.mars7_recruit_backend.common.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Builder
@@ -32,6 +34,12 @@ public class InfoCheckResponseDto {
 
     @Schema(description = "주소", example = "서울특별시 봉천동")
     private String address;
+
+    @Schema(description = "성별", example = "F")
+    private Gender gender;
+
+    @Schema(description = "생년월일", example = "2005-07-11")
+    private LocalDate birth;
 
     @Schema(description = "프로필 이미지", example = "https://example.com/profile.jpg")
     private String profileImage;

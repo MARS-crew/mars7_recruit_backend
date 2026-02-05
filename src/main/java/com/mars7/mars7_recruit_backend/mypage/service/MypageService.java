@@ -29,6 +29,8 @@ public class MypageService {
                 .grade(user.getGrade())
                 .major(user.getMajor())
                 .address(user.getAddress())
+                .gender(user.getGender())
+                .birth(user.getBirth())
                 .profileImage(user.getProfileImage())
                 .apppushAgreed(user.getApppushAgreed())
                 .createdAt(user.getCreatedAt())
